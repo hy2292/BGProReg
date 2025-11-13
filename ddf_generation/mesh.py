@@ -43,9 +43,6 @@ pids= sorted([img.split('_')[0] for img in os.listdir(PATH_OUT) if img.endswith(
              key= lambda a: int(a.split('ID')[1]))
 print('PIDs:', pids)
 
-filelist = read_txt_file(os.path.join('/home/dasong/BGProReg/data/bad.txt'))
-print(filelist)
-
 for pid in pids:
     print(pid)
     # Load all
