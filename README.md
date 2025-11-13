@@ -1,6 +1,6 @@
 # BGProReg: A Biomechanically Generative Framework for Prostate MRI–TRUS Deformable Image Registration
 
-Demo code accompanying the paper of the same title.
+The demo code is provided as a companion to the paper of the same name.
 
 ## Usage
 
