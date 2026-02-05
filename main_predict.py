@@ -34,7 +34,7 @@ def test():
     Trans_model = VAE_new(img_size=128, z_dim=z_dim, nf=32).to(device)
     Trans_model.load_state_dict(torch.load(VAE_model_load_path))
 
-    spatial_trans = SpatialTransformer(img_size, mode='bilinear').to(device)
+    spatial_trans = SpatialTransformer(img_size).to(device)
     spatial_trans_label = SpatialTransformer(img_size, mode='nearest').to(device)
 
     for batch_idx, batch in tqdm(enumerate(testing_data_loader,1), total=len(testing_data_loader)):
@@ -59,7 +59,7 @@ def test():
             predicted_ddf = Trans_model.decode(z_recall)
             predicted_ddf = predicted_ddf * max_norm
 
-            after_mr_msk = spatial_trans_label(mr_msk, predicted_ddf)
+            after_mr_msk = spatial_trans(mr_msk, predicted_ddf)
             loss = Dice_loss(after_mr_msk, us_msk)
 
             dsc = 1-loss.cpu().detach().numpy()
@@ -75,7 +75,7 @@ def test():
 
         after_mr_label = spatial_trans_label(mr_label, predicted_ddf)
         after_mr_label = torch.squeeze(after_mr_label)
-        after_mr_msk = spatial_trans(mr_msk, predicted_ddf)
+        after_mr_msk = spatial_trans_label(mr_msk, predicted_ddf)
 
         dsc = DSC(after_mr_msk, us_msk).cpu().detach()
         before_dsc = DSC(mr_msk, us_msk).cpu().detach()
